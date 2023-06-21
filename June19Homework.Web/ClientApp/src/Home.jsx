@@ -11,10 +11,12 @@ const Home = () => {
     const [task, setTask] = useState({
         title: ''
     })
+    const textBoxRef = useRef(null)
 
     const getTasks = async () => {
         const { data } = await axios.get('/api/task/gettasks')
         setTasks(data)
+        
     }
 
     useEffect(() => {
@@ -23,8 +25,9 @@ const Home = () => {
             await connection.start();
             connectionRef.current = connection;
 
-            connection.on('changeTask', t => {
-                setTasks(t)
+            connection.on('setToDoing', t => {
+                //setTasks(t)
+                setTasks(oldList => oldList.map(task => task.id === t.id ? t : task ))
             })
 
             connection.on('newTask', t => {
@@ -42,6 +45,7 @@ const Home = () => {
 
     useEffect(() => {
         getTasks()
+        textBoxRef.current.focus()
     }, [])
 
     const onAddTaskClick = async () => {
@@ -50,6 +54,7 @@ const Home = () => {
             title: ''
         })
         getTasks()
+        textBoxRef.current.focus()
     }
 
     const OnDoneClick = async (taskId) => {
@@ -68,6 +73,7 @@ const Home = () => {
                     placeholder="Task Title"
                     value={task.title}
                     onChange={e => setTask({ title: e.target.value })}
+                    ref={textBoxRef}
                 />
             </div>
             <div className="col-md-2">

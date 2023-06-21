@@ -28,7 +28,7 @@ namespace June19Homework.Web.Controllers
         [Route("addtask")]
         public void AddTask(TaskItem task)
         {
-            if(task.Title == null)
+            if(task.Title.Trim() == "")
             {
                 return;
             }
@@ -44,7 +44,8 @@ namespace June19Homework.Web.Controllers
             var userRepo = new UserRepository(_connectionString);
             var userId = userRepo.GetByEmail(User.Identity.Name).Id;
             taskRepo.setTaskToDoing(vm.TaskId, userId);
-            _hub.Clients.All.SendAsync("changeTask", taskRepo.GetTaskItems());
+            _hub.Clients.All.SendAsync("setToDoing", taskRepo.GetTaskById(vm.TaskId));
+            //_hub.Clients.All.SendAsync("changeTask", taskRepo.GetTaskItems());
         }
         [HttpPost]
         [Route("taskdone")]
