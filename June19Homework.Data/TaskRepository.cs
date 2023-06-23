@@ -27,7 +27,6 @@ namespace June19Homework.Data
         }
         public void setTaskToDoing(int taskId, int userId)
         {
-
             var context = new TasksDbContext(_connectionString);
             context.Database.ExecuteSqlInterpolated($"UPDATE Tasks SET userId={userId} WHERE id={taskId}");
         }

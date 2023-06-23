@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace June19Homework.Data
@@ -12,6 +13,7 @@ namespace June19Homework.Data
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
+        [JsonIgnore]
         public string HashPassword { get; set; }
     }
 }

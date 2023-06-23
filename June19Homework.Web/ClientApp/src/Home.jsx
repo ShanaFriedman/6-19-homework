@@ -21,12 +21,11 @@ const Home = () => {
 
     useEffect(() => {
         const connectToHub = async () => {
-            const connection = new HubConnectionBuilder().withUrl("/api/test").build();
+            const connection = new HubConnectionBuilder().withUrl("/api/taskshub").build();
             await connection.start();
             connectionRef.current = connection;
 
             connection.on('setToDoing', t => {
-                //setTasks(t)
                 setTasks(oldList => oldList.map(task => task.id === t.id ? t : task ))
             })
 
@@ -53,7 +52,6 @@ const Home = () => {
         setTask({
             title: ''
         })
-        getTasks()
         textBoxRef.current.focus()
     }
 

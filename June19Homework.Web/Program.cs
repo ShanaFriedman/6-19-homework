@@ -47,7 +47,7 @@ namespace June19Homework.Web
             app.UseStaticFiles();
             app.UseRouting();
 
-            app.MapHub<TaskHub>("/api/test");
+            app.MapHub<TaskHub>("/api/taskshub");
 
             app.UseSession();
             app.UseAuthentication();

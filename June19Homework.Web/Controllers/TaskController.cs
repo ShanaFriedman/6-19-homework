@@ -1,5 +1,6 @@
 ﻿using June19Homework.Data;
 using June19Homework.Web.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
@@ -8,6 +9,7 @@ namespace June19Homework.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class TaskController : ControllerBase
     {
         private IHubContext<TaskHub> _hub;
@@ -45,7 +47,6 @@ namespace June19Homework.Web.Controllers
             var userId = userRepo.GetByEmail(User.Identity.Name).Id;
             taskRepo.setTaskToDoing(vm.TaskId, userId);
             _hub.Clients.All.SendAsync("setToDoing", taskRepo.GetTaskById(vm.TaskId));
-            //_hub.Clients.All.SendAsync("changeTask", taskRepo.GetTaskItems());
         }
         [HttpPost]
         [Route("taskdone")]
